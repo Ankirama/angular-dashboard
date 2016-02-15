@@ -1,0 +1,135 @@
+<div class="row alerts-container" data-ng-show="vm.alerts.length">
+  <div class="col-xs-12">
+    <uib-alert data-ng-repeat="alert in vm.alerts" type="{{alert.type}}" close="vm.closeAlert($index)">{{alert.msg}}</uib-alert>
+  </div>
+</div>
+
+<div class="row" data-ng-init="vm.init()">
+  <div class="col-lg-6">
+    <rd-widget>
+      <rd-widget-body>
+        <div class="widget-icon green pull-left">
+          <i class="fa fa-users"></i>
+        </div>
+        <div class="title">{{vm.nbUsers}}</div>
+        <div class="comment">Users</div>
+      </rd-widget-body>
+    </rd-widget>
+  </div>
+  <div class="col-lg-6">
+    <rd-widget>
+      <rd-widget-body>
+        <div class="widget-icon blue pull-left">
+          <i class="fa fa-file-text"></i>
+        </div>
+        <div class="title">{{vm.nbFiles}}</div>
+        <div class="comment">Data</div>
+      </rd-widget-body>
+    </rd-widget>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6">
+    <rd-widget>
+      <rd-widget-header icon="fa-users" title="Users">
+        <a href data-ng-click="vm.modalNewUserOpen()">Add user</a>
+      </rd-widget-header>
+      <rd-widget-body classes="medium no-padding">
+        <div class="table-responsive">
+          <table class="table">
+            <tbody>
+            <tr><td>Username</td><td>Role</td></tr>
+            <tr data-ng-repeat="user in vm.users">
+              <td><a href data-ng-click="vm.getSettings(user)">{{user.username}}</a></td>
+              <td data-ng-show="user.admin">admin</td>
+              <td data-ng-hide="user.admin">user</td>
+              <td><a href data-ng-click="vm.deleteUser(user._id)"><i class="fa fa-close"></i></a></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </rd-widget-body>
+    </rd-widget>
+  </div>
+  <div class="col-lg-6">
+    <rd-widget>
+      <rd-widget-header icon="fa-file-text" title="Data">
+        <a href data-ng-click="vm.modalUploadFile()">Upload File</a>
+      </rd-widget-header>
+      <rd-widget-body classes="medium no-padding">
+        <div class="table-responsive">
+          <table class="table">
+            <tbody>
+            <tr><td>Username</td><td>DeviceName</td><td>Date</td></tr>
+            <tr data-ng-repeat="file in vm.files">
+              <td><a href="#">{{file.username}}</a></td>
+              <td>{{file.deviceName}}</td>
+              <td>{{ file.date | date:'yyyy-MM-dd HH:mm' }}</td>
+              <td><a href data-ng-click="vm.deleteUpload(file._id)"><i class="fa fa-close"></i></a></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </rd-widget-body>
+    </rd-widget>
+  </div>
+
+</div>
+
+<script type="text/ng-template" id="modalSettings.html">
+  <div class="modal-header">
+    <h3 class="modal-title">User: {{user.username}}</h3>
+  </div>
+  <div class="modal-body">
+    <div ui-grid="gridOptions" class="grid" ui-grid-auto-resize ui-grid-edit></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" type="button" ng-click="update()">Update</button>
+  </div>
+</script>
+
+<script type="text/ng-template" id="modalNewUser.html">
+  <div class="modal-header">
+    <h3 class="modal-title">Create new user</h3>
+  </div>
+  <div class="modal-body">
+    <label for="username">Username</label>
+    <input type="text" data-ng-model="username" id="username" placeholder="Username" class="form-control input-sm" required>
+    <label for="password" style="margin-top: 10px">Password</label>
+    <input type="password" data-ng-model="password" id="password" placeholder="Password" class="form-control input-sm" required>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" type="button" ng-click="validate()">Create</button>
+  </div>
+</script>
+<script type="text/ng-template" id="modalUploadFile.html">
+  <div class="modal-header">
+    <h3 class="modal-title">Upload new file</h3>
+  </div>
+  <div class="modal-body">
+    <label for="deviceName">Device Name</label>
+    <input type="text" data-ng-model="deviceName" id="deviceName" placeholder="Device Name" class="form-control input-sm" required>
+    <label data-ng-if="myFile" for="filename" style="margin-top: 10px">File to upload</label>
+    <input type="text" data-ng-if="myFile" id="filename" readonly value="{{myFile.name}}" class="form-control input-sm" required>
+    <div class="uploadFile" ngf-drop="checkFiles($file)" ngf-drag-over-class="dragover">
+      <div>
+        <i class="fa fa-file" style="font-size: 50px;"></i>
+        <br/>
+        <br/>
+        Drag and drop your file here
+        <br/>
+        or
+        <br/>
+        <br/>
+      </div>
+      <button class="btn btn-sm btn-info" ngf-select="checkFiles($file)">Import from your computer</button>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" type="button" ng-click="upload()">Upload</button>
+  </div>
+</script>

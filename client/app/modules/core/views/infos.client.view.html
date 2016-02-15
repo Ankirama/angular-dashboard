@@ -1,0 +1,11 @@
+<section class="container" data-ng-init="vm.getUsers()">
+  <div class="row">
+    <div class="col-lg-6 col-lg-offset-3 text-center">
+      <label>
+        User:
+      </label>
+      <br />
+      <select name="selectUser" data-ng-model="vm.userChoice" data-ng-options="user.username for user in vm.users"></select>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,43 @@
+<section>
+<div class="row" data-ng-init="vm.getFiles()">
+  <div class="row">
+    <div class="col-lg-6 col-lg-offset-3 text-center">
+      <label>Find User / Device data</label>
+      <br />
+      <input ng-model="search.$">
+      <br />
+      <label> Choose data: </label><br>
+      <select name="singleSelect" data-ng-model="vm.choice">
+        <option data-ng-repeat="file in vm.files | filter:search" value="{{$index}}">{{ file.deviceName }} | {{ file.date | date:'yyyy-MM-dd HH:mm' }}</option>
+      </select><br>
+      <div data-ng-show="vm.date">
+        Date: {{vm.date | date:'yyyy-MM-dd'}}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-2 col-lg-offset-1">
+    <label>Min value</label>
+    <br />
+      <input ng-model="vm.minValue">
+      <br />
+      <br />
+    <label>Max value</label>
+      <br />
+      <input ng-model="vm.maxValue">
+      <br />
+      <br />
+      <button class="btn btn-sm btn-info" data-ng-click="vm.refreshLimits()"><i class="fa fa-refresh">  Refresh limits</i></button>
+      <br />
+    </div>
+    <div class="col-lg-7">
+      <angular-chart options="vm.chart"></angular-chart>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-4 col-lg-offset-4">
+      <canvas data-ng-if="vm.data && vm.labels" id="pie" class="chart chart-pie" chart-data="vm.data" chart-labels="vm.labels" chart-legend="true"></canvas>
+    </div>
+  </div>
+</div>
+</section>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>OBD Project Colas</title>
+  <meta name="description" content="OBD project designed for Colas">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="bower_components/rdash-ui/dist/css/rdash.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.min.css">
+  <link rel="stylesheet" type="text/css" href="modules/users/assets/css/modalUploadFile.css">
+  <link rel="stylesheet" type="text/css" href="modules/users/assets/css/login.client.css">
+  <link rel="stylesheet" type="text/css" href="modules/users/assets/css/test.css">
+  <link rel="stylesheet" href="bower_components/angular-chart.js/dist/angular-chart.css">
+  <link rel="stylesheet" href="bower_components/leaflet/leaflet.css">
+  <link rel="stylesheet" href="bower_components/c3/c3.css" />
+  <link rel="stylesheet" href="bower_components/leaflet.draw/dist/leaflet.draw.css">
+  <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,900' rel='stylesheet' type='text/css'>
+
+  <base href="/">
+</head>
+<body data-ng-controller="NavbarController">
+
+<div id="{{wrapperid}}" ng-class="{'open': toggle}" ng-cloak>
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper" ng-hide="isLogginPage()">
+    <ul class="sidebar">
+      <li class="sidebar-main">
+        <a ng-click="toggleSidebar()">
+          Dashboard
+          <span class="menu-icon glyphicon glyphicon-transfer"></span>
+        </a>
+      </li>
+      <li class="sidebar-title"><span>NAVIGATION</span></li>
+      <li class="sidebar-list">
+        <a href="/">Dashboard <span class="menu-icon fa fa-tachometer"></span></a>
+      </li>
+      <li class="sidebar-list">
+        <a href="/map">Map <span class="menu-icon fa fa-map"></span></a>
+      </li>
+      <li class="sidebar-list">
+        <a href="/charts">Charts <span class="menu-icon fa fa-area-chart"></span></a>
+      </li>
+      <li class="sidebar-list">
+        <a href="/infos">Infos <span class="menu-icon fa fa-pie-chart"></span></a>
+      </li>
+    </ul>
+  </div>
+  <!-- End Sidebar -->
+
+  <div id="content-wrapper">
+    <div class="page-content">
+
+      <!-- Header Bar -->
+      <div class="row header" ng-hide="isLogginPage()">
+        <div class="col-xs-12">
+          <div class="user pull-right">
+            <div class="item" uib-dropdown>
+              <a href="#" uib-dropdown-toggle>
+                <img src="modules/core/assets/img/avatar.jpg">
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li class="dropdown-header">
+                  <span style="font-size: 16px; ">{{user.username}}</span>
+                </li>
+                <li class="divider"></li>
+                <li class="link">
+                  <a href data-ng-click="getSettings()">
+                    Settings
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li class="link">
+                  <a href ng-click="logout()">
+                    Logout
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="meta">
+            <div class="page">
+              Dashboard
+            </div>
+            <div class="breadcrumb-links">
+              Home / Dashboard
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Header Bar -->
+
+      <!-- Alerts -->
+      <div class="row alerts-container" data-ng-show="alerts.length">
+        <div class="col-xs-12">
+          <uib-alert data-ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+        </div>
+      </div>
+
+      <!-- end Alerts -->
+
+      <div ui-view></div>
+    </div><!-- End Page Content -->
+  </div><!-- End Content Wrapper -->
+</div>
+</body>
+</html>
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+<!-- angular load -->
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-animate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.8/angular-touch.min.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+<script src="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/11.0.1/ng-file-upload.min.js"></script>
+<script src="bower_components/ngmap/build/scripts/ng-map.min.js"></script>
+<script src="http://maps.google.com/maps/api/js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+<script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
+<script src="bower_components/angular-background-image/src/index.js"></script>
+<script src="bower_components/leaflet/leaflet.js"></script>
+<script src="bower_components/angular-leaflet-directive-master/dist/angular-leaflet-directive.min.js"></script>
+<script src="bower_components/leaflet.draw/dist/leaflet.draw.js"></script>
+<script src="bower_components/d3/d3.js"></script>
+<script src="bower_components/c3/c3.js"></script>
+<script src="bower_components/angular-chart/angular-chart.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+
+<!--<script src="lib_template/main.min.js"></script>-->
+<!-- end angular load -->
+
+<!--&lt;!&ndash; SB2 admin theme load &ndash;&gt;-->
+<!--&lt;!&ndash; jQuery &ndash;&gt;-->
+<!--<script src="app/bower_components/jquery/dist/jquery.min.js"></script>-->
+
+<!--&lt;!&ndash; Bootstrap Core JavaScript &ndash;&gt;-->
+<!--<script src="app/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>-->
+
+<!--&lt;!&ndash; Metis Menu Plugin JavaScript &ndash;&gt;-->
+<!--<script src="app/bower_components/metisMenu/dist/metisMenu.min.js"></script>-->
+
+<!--&lt;!&ndash; Morris Charts JavaScript &ndash;&gt;-->
+<!--<script src="app/bower_components/raphael/raphael-min.js"></script>-->
+<!--<script src="app/bower_components/morrisjs/morris.min.js"></script>-->
+
+<!--&lt;!&ndash; Custom Theme JavaScript &ndash;&gt;-->
+<!--<script src="app/bower_components/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>-->
+<!--&lt;!&ndash; end SB2 admin theme &ndash;&gt;-->
+
+<!-- template load -->
+<!-- end template -->
+
+<!-- Core module load -->
+<script src="modules/core/core.client.module.js"></script>
+<script src="modules/core/config/core.client.config.js"></script>
+<script src="modules/core/config/core.client.routes.js"></script>
+
+<script src="modules/core/controllers/core.client.controller.js"></script>
+<script src="modules/core/controllers/navbar.client.controller.js"></script>
+<script src="modules/core/controllers/charts.client.controller.js"></script>
+<script src="modules/core/controllers/infos.client.controller.js"></script>
+<script src="modules/core/controllers/map.client.controller.js"></script>
+
+<script src="modules/core/services/config.client.service.js"></script>
+<!-- end Core module -->
+
+<!-- User module load -->
+<script src="modules/users/users.client.module.js"></script>
+<script src="modules/users/config/core.client.routes.js"></script>
+
+<script src="modules/users/controllers/login.client.controller.js"></script>
+<script src="modules/users/controllers/dashboard.client.controller.js"></script>
+<script src="modules/users/controllers/modalProfile.client.controller.js"></script>
+<script src="modules/users/controllers/modalAddUser.client.controller.js"></script>
+<script src="modules/users/controllers/modalUploadFile.client.controller.js"></script>
+
+<script src="modules/users/directives/loading.js"></script>
+<script src="modules/users/directives/widget-body.js"></script>
+<script src="modules/users/directives/widget-footer.js"></script>
+<script src="modules/users/directives/widget-header.js"></script>
+<script src="modules/users/directives/widget.js"></script>
+
+<script src="modules/users/services/profile.client.service.js"></script>
+<script src="modules/users/services/token.client.service.js"></script>
+<script src="modules/users/services/users.client.service.js"></script>
+<script src="modules/users/services/settings.client.service.js"></script>
+<script src="modules/users/services/file.client.service.js"></script>
+<!-- end User module load -->
+
+<!--<script src="components/version/version.js"></script>-->
+<!--<script src="components/version/version-directive.js"></script>-->
+<!--<script src="components/version/interpolate-filter.js"></script>-->
+
